@@ -23,3 +23,21 @@ def save_post(content):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+import sqlite3
+
+# データベースの初期化
+conn = sqlite3.connect('posts.db')
+c = conn.cursor()
+c.execute('''CREATE TABLE IF NOT EXISTS posts
+             (content text)''')
+conn.commit()
+conn.close()
+
+# 褒め合い投稿の保存処理
+def save_post(content):
+    conn = sqlite3.connect('posts.db')
+    c = conn.cursor()
+    c.execute("INSERT INTO posts VALUES (?)", (content,))
+    conn.commit()
+    conn.close()
